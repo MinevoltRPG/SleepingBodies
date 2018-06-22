@@ -2,7 +2,6 @@ package sleepingbodies.sleepingbodies;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.HumanEntity;
@@ -128,18 +127,6 @@ public class Listeners implements Listener {
         Chunk c = e.getChunk();
         Entity[] entities = e.getChunk().getEntities();
 
-        for(Entity entity : entities) {
-            if(entity instanceof PolarBear) {
-                if(Bodies.hbsToLoad.containsValue(entity.getUniqueId())) {
-                    for(Map.Entry<UUID, UUID> hb : Bodies.hbsToLoad.entrySet()) {
-                        if(hb.getValue().equals(entity.getUniqueId())) {
-                            Bodies.unloadBody(hb.getKey());
-                        }
-                    }
-                }
-            }
-        }
-
         for(int i = 0; i < chunkToUnload.size(); i++) {
             if(c.equals(chunkToUnload.get(i))) {
                 e.setCancelled(true);
@@ -148,10 +135,21 @@ public class Listeners implements Listener {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        for(Entity entity : entities) {
+                            if(entity instanceof PolarBear) {
+                                if(Bodies.hbsToLoad.containsValue(entity.getUniqueId())) {
+                                    for(Map.Entry<UUID, UUID> hb : Bodies.hbsToLoad.entrySet()) {
+                                        if(hb.getValue().equals(entity.getUniqueId())) {
+                                            Bodies.unloadBody(hb.getKey());
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         e.setCancelled(false);
                         e.setSaveChunk(true);
                     }
-                }.runTaskLater(getPlugin(SleepingBodies.class), 40);
+                }.runTaskLater(getPlugin(SleepingBodies.class), 50);
             }
         }
     }

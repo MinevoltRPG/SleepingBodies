@@ -2,6 +2,9 @@ package sleepingbodies.sleepingbodies;
 
 import me.dpohvar.powernbt.PowerNBT;
 import me.dpohvar.powernbt.api.NBTManager;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import sleepingbodies.sleepingbodies.Data.Database;
 import sleepingbodies.sleepingbodies.Data.SQLite;
@@ -14,6 +17,30 @@ public final class SleepingBodies extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        if(this.getServer().getPluginManager().getPlugin("PowerNBT") == null) {
+            getLogger().warning("Плагин PowerNBT не найден.");
+            for(Player p : this.getServer().getOnlinePlayers()) {
+                if(p.isOp()) {
+                    p.spigot().sendMessage(new ComponentBuilder("[SleepingBodies]")
+                    .append(" Плагин PowerNBT не найден").color(ChatColor.RED)
+                    .create());
+                }
+            }
+            return;
+        }
+
+        if(this.getServer().getPluginManager().getPlugin("OpenInv") == null) {
+            getLogger().warning("Плагин OpenInv не найден.");
+            for(Player p : this.getServer().getOnlinePlayers()) {
+                if(p.isOp()) {
+                    p.spigot().sendMessage(new ComponentBuilder("[SleepingBodies]").color(ChatColor.GRAY)
+                            .append(" Плагин OpenInv не найден").color(ChatColor.RED)
+                            .create());
+                }
+            }
+            return;
+        }
+
         try {
             if (!getDataFolder().exists()) {
                 getDataFolder().mkdirs();

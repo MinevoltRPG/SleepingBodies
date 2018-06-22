@@ -2,4 +2,4 @@ name: SleepingBodies
 version: ${project.version}
 main: sleepingbodies.sleepingbodies.SleepingBodies
 authors: [Apehum]
-depend: [PowerNBT, OpenInv]
+softdepend: [PowerNBT, OpenInv]

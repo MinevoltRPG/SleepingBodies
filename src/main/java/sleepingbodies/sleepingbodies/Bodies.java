@@ -3,18 +3,14 @@ package sleepingbodies.sleepingbodies;
 
 
 import com.google.common.collect.Sets;
-import com.lishid.openinv.IOpenInv;
 import com.lishid.openinv.OpenInv;
 import me.dpohvar.powernbt.api.NBTCompound;
 import me.dpohvar.powernbt.api.NBTList;
 import net.minecraft.server.v1_12_R1.*;
-import net.minecraft.server.v1_12_R1.Item;
 import org.bukkit.*;
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.craftbukkit.v1_12_R1.command.ConsoleCommandCompleter;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
@@ -190,6 +186,7 @@ public class Bodies {
 //            } else {
 //                uName.setCustomName(p.getDisplayName());
 //            }
+            uName.setCustomName(p.getDisplayName());
             uName.setCustomNameVisible(true);
         }
 
@@ -723,7 +720,6 @@ public class Bodies {
             openedBody.remove(p);
         }
 
-
         @EventHandler
         public void ovInvInteract(InventoryClickEvent e) {
             Inventory inv = e.getClickedInventory();
@@ -732,7 +728,62 @@ public class Bodies {
             if(inv != null) {
                 if (it != null) {
                     if (openedBody.containsValue(inv)) {
-                        if(e.getSlot() > 40) {
+                        if(e.getSlot() > 35) {
+                            List<Material> helmets = new ArrayList<>();
+                            List<Material> chestplates = new ArrayList<>();
+                            List<Material> leggs = new ArrayList<>();
+                            List<Material> boots = new ArrayList<>();
+
+                            helmets.add(Material.AIR);
+                            chestplates.add(Material.AIR);
+                            leggs.add(Material.AIR);
+                            boots.add(Material.AIR);
+
+                            helmets.add(Material.LEATHER_HELMET);
+                            chestplates.add(Material.LEATHER_CHESTPLATE);
+                            leggs.add(Material.LEATHER_LEGGINGS);
+                            boots.add(Material.LEATHER_BOOTS);
+
+                            helmets.add(Material.CHAINMAIL_HELMET);
+                            chestplates.add(Material.CHAINMAIL_CHESTPLATE);
+                            leggs.add(Material.CHAINMAIL_LEGGINGS);
+                            boots.add(Material.CHAINMAIL_BOOTS);
+
+                            helmets.add(Material.IRON_HELMET);
+                            chestplates.add(Material.IRON_CHESTPLATE);
+                            leggs.add(Material.IRON_LEGGINGS);
+                            boots.add(Material.IRON_BOOTS);
+
+                            helmets.add(Material.GOLD_HELMET);
+                            chestplates.add(Material.GOLD_CHESTPLATE);
+                            leggs.add(Material.GOLD_LEGGINGS);
+                            boots.add(Material.GOLD_BOOTS);
+
+                            helmets.add(Material.DIAMOND_HELMET);
+                            chestplates.add(Material.DIAMOND_CHESTPLATE);
+                            leggs.add(Material.DIAMOND_LEGGINGS);
+                            boots.add(Material.DIAMOND_BOOTS);
+                            if (e.getSlot() == 36) {
+                                if (!helmets.contains(e.getCursor().getType())) {
+                                    e.setCancelled(true);
+                                }
+                            }
+                            if (e.getSlot() == 37) {
+                                if (!chestplates.contains(e.getCursor().getType())) {
+                                    e.setCancelled(true);
+                                }
+                            }
+                            if (e.getSlot() == 38) {
+                                if (!leggs.contains(e.getCursor().getType())) {
+                                    e.setCancelled(true);
+                                }
+                            }
+                            if (e.getSlot() == 39) {
+                                if (!boots.contains(e.getCursor().getType())) {
+                                    e.setCancelled(true);
+                                }
+                            }
+                        } else if(e.getSlot() > 40) {
                             e.setCancelled(true);
                         }
                     }
