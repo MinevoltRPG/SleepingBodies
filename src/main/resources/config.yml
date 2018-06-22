@@ -1,0 +1,10 @@
+nickHide: false   # Hide player nick
+hpHide: false     # Hide health indicator
+lootHide: false   # Hide looting indicator
+
+lootText: "&6Looting"     # Looting indicator (Don't work if lootHide is true)
+hpPrefix_1: "&a"           # Prefix hp if hp more than 75%
+hpPrefix_2: "&e"           # Prefix hp if hp less than 75%, but more than 25%
+hpPrefix_3: "&c"           # Prefix hp if hp less than 75%
+
+hider: false      # Enable Hider support
