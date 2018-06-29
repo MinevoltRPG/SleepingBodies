@@ -42,11 +42,13 @@ public class Listeners implements Listener {
                 p.getInventory().clear();
                 p.setHealth(0);
             } else {
-                if(p.getLocation().getChunk().isLoaded() && hbs.get(u) != null) {
+                if(hbs.get(u) != null) {
                     p.teleport(hbs.get(u));
                     Bodies.delBody(u);
                 } else {
-                    bodyToRemove.put(p, hbsToLoad.get(u));
+                    refreshBodiesByChunk(p.getLocation().getChunk().getEntities());
+                    p.teleport(hbs.get(u));
+                    Bodies.delBody(u);
                 }
             }
             db.clear(u);
@@ -99,13 +101,15 @@ public class Listeners implements Listener {
     public void onLoadChunk(ChunkLoadEvent e) {
         Entity[] entities = e.getChunk().getEntities();
 
+        refreshBodiesByChunk(entities);
+    }
+
+    private void refreshBodiesByChunk(Entity[] entities) {
         for(Entity entity : entities) {
             if(entity instanceof PolarBear) {
-                System.out.println(entity.getUniqueId().toString());
                 if(Bodies.hbsToLoad.containsValue(entity.getUniqueId())) {
                     for (Map.Entry<UUID, UUID> hb : Bodies.hbsToLoad.entrySet()) {
                         if (hb.getValue().equals(entity.getUniqueId())) {
-                            System.out.println(hb.getKey().toString());
                             Bodies.loadBody(hb.getKey());
                         }
                     }
@@ -149,7 +153,7 @@ public class Listeners implements Listener {
                         e.setCancelled(false);
                         e.setSaveChunk(true);
                     }
-                }.runTaskLater(getPlugin(SleepingBodies.class), 50);
+                }.runTaskLater(getPlugin(SleepingBodies.class), 10);
             }
         }
     }
